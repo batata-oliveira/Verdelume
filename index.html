@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verdelume — Projeto Educacional</title>
+</head>
+<body>
+
+<style>
+    /* verdelume.css
+   Tema: Verdelume — pixel / mágico / agronegócio
+   Coloca no <head>: <link rel="stylesheet" href="verdélume.css">
+*/
+
+/* ===== Variáveis de tema ===== */
+:root{
+  --bg-1: #071223;   /* escuro profundo */
+  --bg-2: #0b1b1a;   /* verde-escuro */
+  --card: #0f2a20;
+  --muted: #9fb6a8;
+  --accent: #6EE7B7; /* verde mágico */
+  --accent-2:#34d399;
+  --gold: #fddc69;
+  --glass: rgba(255,255,255,0.04);
+  --pixel-size: 8px; /* para bordas/offsets "pixelados" */
+  --radius: 6px;
+  --text: #e6f6ef;
+  --mono: 'Press Start 2P', 'Courier New', monospace;
+  --ui: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* ===== Reset simples ===== */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:
+    radial-gradient(800px 400px at 10% 10%, rgba(110,231,183,0.03), transparent 10%),
+    linear-gradient(180deg,var(--bg-1),var(--bg-2));
+  color:var(--text);
+  font-family: var(--ui);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.35;
+  padding:24px;
+}
+
+/* ===== Helper: pixel rendering (mantém bordes nítidos) ===== */
+.pixel,
+img.pixel {
+  image-rendering: pixelated;       /* Chromium / Blink */
+  image-rendering: crisp-edges;     /* Firefox */
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-pixelated;
+  shape-rendering: crispEdges;
+}
+
+/* ===== Layout base ===== */
+.container{
+  max-width:1100px;
+  margin:0 auto;
+}
+
+/* ===== Cabeçalho ===== */
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:18px;
+}
+.header .brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.logo{
+  width:64px;height:64px;border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  display:flex;align-items:center;justify-content:center;
+  color:#052025;font-weight:900;font-size:22px;
+  box-shadow:0 6px 18px rgba(5,30,20,0.35), inset 0 -6px 10px rgba(255,255,255,0.03);
+  font-family:var(--mono);
+}
+
+/* Nav simples */
+.nav{
+  display:flex;gap:10px;align-items:center;
+}
+.nav a{
+  text-decoration:none;color:var(--muted);font-weight:700;padding:8px 10px;border-radius:6px;
+}
+.nav a:hover{color:var(--accent);background:rgba(255,255,255,0.02)}
+
+/* ===== Cards / painéis ===== */
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.03);
+  padding:16px;border-radius:var(--radius);
+  box-shadow: 0 8px 30px rgba(2,6,23,0.55);
+}
+
+/* "Pixel border" — cria borda em passos para sensação 8-bit */
+.pixel-border{
+  position:relative;
+  padding:8px;
+  border-radius:4px;
+  overflow:visible;
+}
+.pixel-border:before,
+.pixel-border:after{
+  content:"";position:absolute;inset:0;border-radius:4px;
+  pointer-events:none;
+}
+.pixel-border:before{
+  box-shadow:
+    /* pequenos blocos simulando pixel outline */
+    0 var(--pixel-size) 0 rgba(0,0,0,0.6),
+    var(--pixel-size) 0 0 rgba(0,0,0,0.6),
+    calc(var(--pixel-size) * -1) 0 0 rgba(255,255,255,0.02),
+    0 calc(var(--pixel-size) * -1) 0 rgba(255,255,255,0.02);
+  transform:translateZ(0);
+}
+
+/* ===== Botões retro ===== */
+.btn {
+  display:inline-block;
+  padding:10px 14px;
+  border-radius:8px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.04);
+  color:var(--accent);
+  font-weight:800;
+  cursor:pointer;
+  text-decoration:none;
+  transition:transform .08s ease, box-shadow .12s ease;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.5);
+}
+.btn:active{transform:translateY(1px)}
+.btn.primary{
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#04221a;border:none;box-shadow:0 8px 26px rgba(52,211,153,0.08);
+}
+
+/* botão pixel (borda em passos) */
+.btn.pixel-btn{
+  font-family:var(--mono);
+  border:3px solid rgba(0,0,0,0.5);
+  box-shadow: none;
+  padding:8px 12px;
+  letter-spacing:0.5px;
+}
+
+/* ===== Tipografia temática ===== */
+.title{
+  font-family:var(--mono);
+  font-weight:900;
+  letter-spacing:1px;
+  font-size:20px;color:var(--gold);
+  text-shadow:0 2px 0 rgba(0,0,0,0.5);
+}
+.lead{color:var(--muted);font-size:15px}
+
+/* ===== Galeria / pixel art showcase ===== */
+.gallery{
+  display:flex;flex-wrap:wrap;gap:12px;
+}
+.gallery .item{
+  width:128px;height:128px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;border:1px solid rgba(255,255,255,0.03);
+}
+.gallery img{max-width:100%;height:auto;display:block}
+.gallery img.pixel{width:100%;height:100%;object-fit:contain;}
+
+/* mini legenda */
+.caption{font-size:12px;color:var(--muted);margin-top:6px;text-align:center}
+
+/* ===== Área do mapa/jogo (tela do jogo) ===== */
+.game-screen{
+  width:100%;
+  max-width:860px;
+  background:#071a12;
+  border:6px solid rgba(0,0,0,0.6);
+  border-radius:8px;
+  padding:8px;
+  box-shadow:0 12px 36px rgba(0,0,0,0.6);
+  margin:12px 0;
+  position:relative;
+  overflow:hidden;
+}
+/* container para canvas ou div tiles */
+.map-canvas{
+  width:100%;height:420px;
+  background-image:
+    linear-gradient(transparent 24px, rgba(0,0,0,0.02) 25px),
+    linear-gradient(90deg, transparent 24px, rgba(0,0,0,0.02) 25px);
+  background-size:48px 48px;
+  image-rendering: pixelated;
+}
+
+/* ===== HUD / info bar ===== */
+.hud{
+  display:flex;gap:10px;align-items:center;justify-content:space-between;
+  margin-top:8px;
+}
+.hud .stat{
+  background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:8px;font-weight:700;color:var(--muted);
+}
+
+/* ===== Spritesheet helper =====
+   Use .sprite with width/height = frame size, set
+   background-image, background-size (frames*width, height)
+   and animate background-position with steps()
+*/
+.sprite{
+  display:inline-block;
+  image-rendering: pixelated;
+  background-repeat:no-repeat;
+  will-change:background-position;
+}
+/* exemplo de animação (4 frames horizontais) */
+@keyframes spriteWalk {
+  from{ background-position: 0 0; }
+  to{ background-position: -128px 0; } /* ajusta conforme largura total do spritesheet */
+}
+.sprite.animate-walk{
+  animation: spriteWalk 0.8s steps(4) infinite;
+}
+
+/* ===== Cards de conteúdo com "glow" mágico ===== */
+.card-glow{
+  position:relative;
+  overflow:visible;
+}
+.card-glow:after{
+  content:"";
+  position:absolute;left:-20px;right:-20px;bottom:-10px;height:60px;
+  background: radial-gradient(60% 60% at 50% 40%, rgba(110,231,183,0.08), transparent 40%);
+  filter: blur(18px);
+  z-index:0;
+  pointer-events:none;
+}
+
+/* ===== Listas estilizadas (etapas) ===== */
+.steps{display:flex;flex-direction:column;gap:8px}
+.step{
+  background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
+  border-radius:8px;padding:10px;border:1px solid rgba(255,255,255,0.02);
+}
+.step .head{display:flex;justify-content:space-between;align-items:center;font-weight:800}
+.step .body{color:var(--muted);margin-top:8px}
+
+/* ===== Forms simples ===== */
+.input, textarea{
+  width:100%;padding:8px;border-radius:6px;background:#04221b;border:1px solid rgba(255,255,255,0.03);color:var(--text)
+}
+label{font-size:13px;color:var(--muted)}
+
+/* ===== Responsividade ===== */
+@media (max-width:900px){
+  .game-screen{height:auto}
+  .gallery .item{width:96px;height:96px}
+  body{padding:16px}
+}
+
+/* ===== Pequenos toques de interatividade ===== */
+a, .btn { transition: all .12s ease }
+a:hover, .btn:hover { transform: translateY(-2px); filter:brightness(1.03) }
+
+/* ===== Utilitários ===== */
+.row{display:flex;gap:12px;align-items:center}
+.col{flex:1}
+
+/* ================================
+   Exemplo de uso (HTML rápido)
+   - <img class="pixel" src="assets/sword.png">
+   - <div class="gallery"><div class="item"><img class="pixel" src="assets/hero.png"></div></div>
+   - <div class="game-screen"><div class="map-canvas" id="map"></div></div>
+   - <div class="sprite animate-walk" style="width:32px;height:32px;background-image:url(assets/hero-sprites.png);background-size:128px 32px"></div>
+   ================================ */
+
+</style>
+
+
+  <!-- Cabeçalho -->
+  <header>
+    <h1>Verdelume: um jogo educativo e mágico</h1>
+    <nav>
+      <ul>
+        <li><a href="#inicio">Início</a></li>
+        <li><a href="#projeto">Projeto</a></li>
+        <li><a href="#etapas">Etapas</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Seção Hero -->
+  <section id="inicio">
+    <h2>Explore Eldora</h2>
+    <p>Um mundo mágico de fazendas, RPG e agronegócio.</p>
+  </section>
+
+  <!-- Sobre o Projeto -->
+  <section id="projeto">
+    <h2>O que é Verdelume?</h2>
+    <p>Bem-vindo a Verdelume! É um jogo ambientado em Eldora, um mundo mágico repleto de criaturas encantadas e pessoas boas, mas também forças malignas.</p>
+    <p><strong>Objetivo do Jogo:</strong> ensinar conceitos do agronegócio de forma lúdica e acessível.</p>
+  </section>
+
+  <!-- Como o projeto irá acontecer -->
+  <section>
+    <h2>Como o projeto irá acontecer?</h2>
+    <p>O projeto Verdelume será desenvolvido em etapas, combinando design de jogos, narrativa interativa, programação e educação agrícola. A ideia é ensinar práticas sustentáveis do agronegócio por meio de mecânicas lúdicas e envolventes.</p>
+  </section>
+
+  <!-- Etapas -->
+  <section id="etapas">
+    <h2>Etapas</h2>
+    <ol>
+      <li>Definição do público-alvo e proposta pedagógica.</li>
+      <li>Desenvolvimento de wireframes, sistemas de interação e design dos personagens.</li>
+      <li>Programação do jogo, gráficos, sons e testes iniciais.</li>
+      <li>Aplicação piloto com alunos e coleta de feedback.</li>
+      <li>Ajustes finais, publicação e divulgação.</li>
+    </ol>
+  </section>
+
+  <!-- Contato -->
+  <section id="contato">
+    <h2>Contato</h2>
+    <form>
+      <label>Nome:<br><input type="text" name="nome" required></label><br>
+      <label>Email:<br><input type="email" name="email" required></label><br>
+      <label>Mensagem:<br><textarea name="mensagem" rows="5" required></textarea></label><br>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+
+  <!-- Rodapé -->
+  <footer>
+    <p>© Verdelume — Projeto Educacional • Estado de Goiás</p>
+  </footer>
+
+  <a href="index.site-teste.html"><button class="btn">Vá para outra página</button></a>
+
+</body>
+</html>
+
